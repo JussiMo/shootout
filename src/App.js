@@ -1,23 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
+import SnookerTimer from "./screens/SnookerTimer";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Snooker App (Testing)</h1>
+      <SnookerTimer
+        language="EN"
+        playerNames={{ player1: "Player 1", player2: "Player 2" }}
+        setPlayerNames={() => {}}
+        onOpenSettings={() => alert("Settings not implemented")}
+      />
     </div>
   );
 }

@@ -1,0 +1,33 @@
+.snooker-app {
+    text-align: center;
+    font-family: sans-serif;
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .timer,
+  .shot-clock,
+  .scoreboard {
+    font-size: 20px;
+    margin: 10px 0;
+  }
+  
+  .control-panel {
+    margin-top: 20px;
+  }
+  
+  .control-panel .buttons button {
+    margin: 5px;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  .control-panel hr {
+    margin: 15px 0;
+  }
