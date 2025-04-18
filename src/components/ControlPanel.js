@@ -15,13 +15,13 @@ export default function ControlPanel({ onStart, onStop, isRunning, onScore, play
         {colors.map((color) => (
           <button key={color} onClick={() => onScore("player1", color)}>{color}</button>
         ))}
-        <button onClick={() => onScore("player1", "foul")}>virhepiste → P1</button>
+        <button onClick={() => onScore("player1", "foul")}>virhepiste</button>
         <hr />
         <h3>{playerNames.player2}</h3>
         {colors.map((color) => (
           <button key={color + "2"} onClick={() => onScore("player2", color)}>{color}</button>
         ))}
-        <button onClick={() => onScore("player2", "foul")}>virhepiste → P2</button>
+        <button onClick={() => onScore("player2", "foul")}>virhepiste</button>
       </div>
     </div>
   );

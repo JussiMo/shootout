@@ -4,13 +4,15 @@ import MatchTimer from "../components/MatchTimer";
 import Scoreboard from "../components/Scoreboard";
 import ControlPanel from "../components/ControlPanel";
 import "../styles/style.css";
+import translations from "../utils/translations";
 
-export default function SnookerTimer({ language, playerNames, setPlayerNames, onOpenSettings }) {
+export default function SnookerTimer({ language, playerNames, setPlayerNames, onOpenSettings, settingsOpen }) {
   const [matchTime, setMatchTime] = useState(600);
   const [matchStarted, setMatchStarted] = useState(false);
   const [shotClock, setShotClock] = useState(15);
   const [playerScores, setPlayerScores] = useState({ player1: 0, player2: 0 });
   const [isShotClockRunning, setIsShotClockRunning] = useState(false);
+  const t = translations[language];
 
   const sounds = useRef({
     "5minEN": new Audio("/5minEN.mp3"),
@@ -72,6 +74,23 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
     setIsShotClockRunning(false);
     setShotClock(matchTime > 300 ? 15 : 10);
   }
+
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (!settingsOpen && e.code === "Space") {
+        e.preventDefault(); // prevent page scroll
+        if (isShotClockRunning) {
+          stopShotClock();
+        } else {
+          startShotClock();
+        }
+      }
+    };
+  
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [isShotClockRunning, settingsOpen]); // watch state so it uses current version
+  
   
 
   function addPoints(player, type) {
@@ -103,22 +122,105 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
 
   return (
     <div className="snooker-app">
-      <h1 className="title">Snooker Shoot-Out Timer</h1>
-      <button onClick={onOpenSettings}>Settings</button>
-      {!matchStarted && matchTime === 600 && (
-        <button onClick={() => setMatchStarted(true)}>Start Match</button>
-      )}
-      {matchTime === 0 && <button onClick={resetGame}>Reset Match</button>}
-      <MatchTimer time={matchTime} />
-      <ShotClock time={shotClock} />
-      <ControlPanel
-        onStart={startShotClock}
-        onStop={stopShotClock}
-        isRunning={isShotClockRunning}
-        onScore={(player, type) => addPoints(player, type)}
-        playerNames={playerNames}
-      />
-      <Scoreboard scores={playerScores} playerNames={playerNames} />
+      {/* Top Section: Settings + Match Timer Box */}
+      <div className="top-bar">
+        <div className="settings-container">
+          <button onClick={onOpenSettings} className="settings-btn">
+            {t.settings}
+          </button>
+        </div>
+  
+        <div className="top-box">
+          <MatchTimer time={matchTime} label={t.matchTimer} />
+  
+          {!matchStarted && matchTime === 600 && (
+            <button onClick={() => setMatchStarted(true)} className="match-btn">
+              {t.start}
+            </button>
+          )}
+  
+          {matchTime === 0 && (
+            <button onClick={resetGame} className="match-btn">
+              {t.reset}
+            </button>
+          )}
+        </div>
+      </div>
+  
+      {/* Main Layout: Player 1 | Shot Clock | Player 2 */}
+      <div className="main-layout">
+        
+        {/* Player 1 Side */}
+        <div className="player-side-horizontal">
+          <div className="score-buttons">
+            {["red", "yellow", "green", "brown", "blue", "pink", "black"].map((color) => (
+              <button
+                key={color}
+                className={`ball-btn ball-${color}`}
+                onClick={() => addPoints("player1", color)}
+                title={color} // optional hover
+              >
+                <div className="ball-shape"></div>
+              </button>
+            ))}
+          </div>
+  
+          <div className="player-info-inline">
+            <button className="foul-btn" onClick={() => addPoints("player1", "foul")}>
+              {t.foul} P1
+            </button>
+            <h3>{playerNames.player1}</h3>
+            <div className="score">{t.playerScore}: {playerScores.player1}</div>
+          </div>
+        </div>
+  
+        {/* Center: Shot Clock Box */}
+        <div className="center">
+          <ShotClock time={shotClock} label={t.shotClock} />
+          <div className="bottom-bar">
+            {!isShotClockRunning ? (
+              <button onClick={startShotClock} className="shot-btn">
+                Start
+              </button>
+            ) : (
+              <button onClick={stopShotClock} className="shot-btn">
+                Stop
+              </button>
+            )}
+          </div>
+        </div>
+  
+        {/* Player 2 Side */}
+        <div className="player-side-horizontal">
+          <div className="player-info-inline">
+            <button className="foul-btn" onClick={() => addPoints("player2", "foul")}>
+              {t.foul} P2
+            </button>
+            <h3>{playerNames.player2}</h3>
+            <div className="score">{t.playerScore}: {playerScores.player2}</div>
+          </div>
+  
+          <div className="score-buttons">
+            {["red", "yellow", "green", "brown", "blue", "pink", "black"].map((color) => (
+              <button
+                key={color + "2"}
+                className={`ball-btn ball-${color}`}
+                onClick={() => addPoints("player2", color)}
+                title={color} // optional hover
+              >
+                <div className="ball-shape"></div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
+  
+  
+  
+  
+  
+  
+  
 }

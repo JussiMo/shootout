@@ -1,5 +1,10 @@
 import React from "react";
 
-export default function ShotClock({ time }) {
-  return <div className="shot-clock">Shot Clock: {time} sec</div>;
+export default function ShotClock({ time, label }) {
+  return (
+    <div className="shot-clock">
+      <div className="timer-label">{label}</div>
+      <div className="timer-value">{time} sec</div>
+    </div>
+  );
 }

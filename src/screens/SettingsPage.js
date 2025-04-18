@@ -7,17 +7,21 @@ export default function SettingsPage({
   playerNames,
   setPlayerNames,
   onBack,
+  resetGame,
 }) {
   return (
     <div className="settings-page">
-      <h1>Settings Page</h1>
-      <button onClick={onBack}>Back to Game</button>
+      <button onClick={onBack} className="back-btn">X</button>
       <Settings
         language={language}
         setLanguage={setLanguage}
         playerNames={playerNames}
         setPlayerNames={setPlayerNames}
       />
+
+      <button onClick={resetGame} className="settings-reset-btn">
+        Reset Game
+      </button>
     </div>
   );
 }
