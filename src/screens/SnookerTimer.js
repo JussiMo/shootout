@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import ShotClock from "../components/ShotClock";
 import MatchTimer from "../components/MatchTimer";
-import Scoreboard from "../components/Scoreboard";
-import ControlPanel from "../components/ControlPanel";
 import "../styles/style.css";
 import translations from "../utils/translations";
 
@@ -78,7 +76,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (!settingsOpen && e.code === "Space") {
-        e.preventDefault(); // prevent page scroll
+        e.preventDefault();
         if (isShotClockRunning) {
           stopShotClock();
         } else {
@@ -89,7 +87,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
   
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [isShotClockRunning, settingsOpen]); // watch state so it uses current version
+  }, [isShotClockRunning, settingsOpen]);
   
   
 
@@ -206,7 +204,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
                 key={color + "2"}
                 className={`ball-btn ball-${color}`}
                 onClick={() => addPoints("player2", color)}
-                title={color} // optional hover
+                title={color}
               >
                 <div className="ball-shape"></div>
               </button>

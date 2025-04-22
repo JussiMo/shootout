@@ -1,9 +1,9 @@
-/* == App Background + Typography == */
+/*App Background*/
 .snooker-app {
   text-align: center;
   font-family: "Segoe UI", sans-serif;
   padding: 30px 20px;
-  background-color: #014421; /* pro snooker green */
+  background-color: #014421;
   color: #fff;
   min-height: 100vh;
 }
@@ -16,8 +16,8 @@
 
 /*Match Timer Box */
 .top-box {
-  position: absolute; /* ✅ new */
-  top: 130px;          /* ✅ adjust as needed */
+  position: absolute; 
+  top: 130px;          
   left: 50%;
   transform: translateX(-50%);
   background-color: #111;
@@ -71,7 +71,7 @@
 
 /* Shot Clock Box */
 .center {
-  position: absolute; /* ✅ new */
+  position: absolute;
   left: 39%;
   background-color: #222;
   border-radius: 12px;
@@ -160,8 +160,8 @@
 }
 
 .ball-btn {
-  width: 90px;     /* bigger */
-  height: 90px;    /* bigger */
+  width: 90px;     
+  height: 90px;    
   padding: 0;
   border: none;
   background: transparent;
@@ -172,15 +172,15 @@
 }
 
 .ball-shape {
-  width: 90px;     /* bigger */
-  height: 90px;    /* bigger */
+  width: 90px;     
+  height: 90px;    
   border-radius: 50%;
   border: 2px solid #333;
 }
 
 /* Ball Colors */
 .ball-red .ball-shape    { background-color: #d60000; }
-.ball-yellow .ball-shape { background-color: #ffcc00; color: black; }
+.ball-yellow .ball-shape { background-color: #ffcc00; }
 .ball-green .ball-shape  { background-color: #00aa00; }
 .ball-brown .ball-shape  { background-color: #8b4513; }
 .ball-blue .ball-shape   { background-color: #0047ab; }
