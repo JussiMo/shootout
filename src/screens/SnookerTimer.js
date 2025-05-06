@@ -4,7 +4,7 @@ import MatchTimer from "../components/MatchTimer";
 import "../styles/style.css";
 import translations from "../utils/translations";
 
-export default function SnookerTimer({ language, playerNames, setPlayerNames, onOpenSettings, settingsOpen }) {
+export default function SnookerTimer({ language, playerNames, setPlayerNames, onOpenSettings, settingsOpen, foulPoints }) {
   const [matchTime, setMatchTime] = useState(600);
   const [matchStarted, setMatchStarted] = useState(false);
   const [shotClock, setShotClock] = useState(15);
@@ -100,7 +100,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
       blue: 5,
       pink: 6,
       black: 7,
-      foul: 5,
+      foul: foulPoints,
     };
     setPlayerScores((prev) => ({
       ...prev,
@@ -174,7 +174,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
   
         {/* Center: Shot Clock Box */}
         <div className="center">
-          <ShotClock time={shotClock} label={t.shotClock} />
+          <ShotClock time={shotClock} label={t.shotClock} maxTime={matchTime > 300 ? 15 : 10} />
           <div className="bottom-bar">
             {!isShotClockRunning ? (
               <button onClick={startShotClock} className="shot-btn">

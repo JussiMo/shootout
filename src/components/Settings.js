@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Settings({ language, setLanguage, playerNames, setPlayerNames }) {
+export default function Settings({ language, setLanguage, playerNames, setPlayerNames, foulPoints, setFoulPoints }) {
   return (
     <div className="settings">
       <h2>Settings / Asetukset</h2>
@@ -27,6 +27,17 @@ export default function Settings({ language, setLanguage, playerNames, setPlayer
           onChange={(e) => setPlayerNames((prev) => ({ ...prev, player2: e.target.value }))}
         />
       </div>
+      <div>
+        <label>{language === "FI" ? "Virhepiste" : "Foul point"}: </label>
+        <input
+          type="number"
+          min="1"
+          max="7"
+          value={foulPoints}
+          onChange={(e) => setFoulPoints(Number(e.target.value))}
+        />
+      </div>
+
     </div>
   );
 }

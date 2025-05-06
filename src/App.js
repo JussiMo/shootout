@@ -6,6 +6,7 @@ import "./styles/style.css";
 function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [language, setLanguage] = useState("EN");
+  const [foulPoints, setFoulPoints] = useState(5);
   const [playerNames, setPlayerNames] = useState({
     player1: "Player 1",
     player2: "Player 2",
@@ -29,6 +30,7 @@ function App() {
         setPlayerNames={setPlayerNames}
         onOpenSettings={() => setShowSettings(true)}
         settingsOpen={showSettings}
+        foulPoints={foulPoints}
       />
 
       {showSettings && (
@@ -46,6 +48,8 @@ function App() {
               setPlayerNames={setPlayerNames}
               onBack={() => setShowSettings(false)}
               resetGame={() => window.location.reload()} // simple full reset
+              foulPoints={foulPoints}
+              setFoulPoints={setFoulPoints}
 
             />
           </div>
