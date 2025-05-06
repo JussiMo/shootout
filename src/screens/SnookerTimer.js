@@ -84,12 +84,12 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
         }
       }
     };
-  
+
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, [isShotClockRunning, settingsOpen]);
-  
-  
+
+
 
   function addPoints(player, type) {
     const ballPoints = {
@@ -127,27 +127,38 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
             {t.settings}
           </button>
         </div>
-  
+
         <div className="top-box">
           <MatchTimer time={matchTime} label={t.matchTimer} />
-  
-          {!matchStarted && matchTime === 600 && (
-            <button onClick={() => setMatchStarted(true)} className="match-btn">
+
+          <div className="match-controls">
+            <button
+              onClick={() => setMatchStarted(true)}
+              className="match-btn"
+              style={{
+                visibility: !matchStarted && matchTime === 600 ? "visible" : "hidden",
+              }}
+            >
               {t.start}
             </button>
-          )}
-  
-          {matchTime === 0 && (
-            <button onClick={resetGame} className="match-btn">
+
+            <button
+              onClick={resetGame}
+              className="match-btn"
+              style={{
+                visibility: matchTime === 0 ? "visible" : "hidden",
+              }}
+            >
               {t.reset}
             </button>
-          )}
+          </div>
+
         </div>
       </div>
-  
+
       {/* Main Layout: Player 1 | Shot Clock | Player 2 */}
       <div className="main-layout">
-        
+
         {/* Player 1 Side */}
         <div className="player-side-horizontal">
           <div className="score-buttons">
@@ -162,7 +173,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
               </button>
             ))}
           </div>
-  
+
           <div className="player-info-inline">
             <button className="foul-btn" onClick={() => addPoints("player1", "foul")}>
               {t.foul} P1
@@ -171,7 +182,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
             <div className="score">{t.playerScore}: {playerScores.player1}</div>
           </div>
         </div>
-  
+
         {/* Center: Shot Clock Box */}
         <div className="center">
           <ShotClock time={shotClock} label={t.shotClock} />
@@ -187,7 +198,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
             )}
           </div>
         </div>
-  
+
         {/* Player 2 Side */}
         <div className="player-side-horizontal">
           <div className="player-info-inline">
@@ -197,7 +208,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
             <h3>{playerNames.player2}</h3>
             <div className="score">{t.playerScore}: {playerScores.player2}</div>
           </div>
-  
+
           <div className="score-buttons">
             {["red", "yellow", "green", "brown", "blue", "pink", "black"].map((color) => (
               <button
@@ -214,11 +225,11 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
       </div>
     </div>
   );
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
 }

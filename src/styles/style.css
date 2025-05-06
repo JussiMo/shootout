@@ -52,6 +52,16 @@ html, body {
   z-index: 10;
 }
 
+.match-controls {
+  position: relative;
+  left: 75%;
+  transform: translateX(-50%);
+  height: 48px; /* enough for one button, adjust to your button height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 /* Timer Components */
 .timer,
@@ -232,6 +242,9 @@ html, body {
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
+  position: absolute;
+  top: 30px;
+  transform: translateX(-50%);
 }
 
 .settings-btn {
