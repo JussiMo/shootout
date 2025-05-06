@@ -47,7 +47,7 @@ function App() {
               playerNames={playerNames}
               setPlayerNames={setPlayerNames}
               onBack={() => setShowSettings(false)}
-              resetGame={() => window.location.reload()} // simple full reset
+              resetGame={() => window.location.reload()}
               foulPoints={foulPoints}
               setFoulPoints={setFoulPoints}
 

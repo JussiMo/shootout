@@ -78,16 +78,21 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
       if (!settingsOpen && e.code === "Space") {
         e.preventDefault();
         if (isShotClockRunning) {
-          stopShotClock();
+          setIsShotClockRunning(false);
+          setShotClock(matchTime > 300 ? 15 : 10);
         } else {
-          startShotClock();
+          if (shotClock <= 0) {
+            setShotClock(matchTime > 300 ? 15 : 10);
+          }
+          setIsShotClockRunning(true);
         }
       }
     };
   
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [isShotClockRunning, settingsOpen]);
+  }, [isShotClockRunning, shotClock, matchTime, settingsOpen]);
+  
   
   
 
