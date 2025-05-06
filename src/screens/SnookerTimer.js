@@ -28,12 +28,22 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
   useEffect(() => {
     let matchTimer;
     if (matchStarted && matchTime > 0) {
-      matchTimer = setInterval(() => setMatchTime((prev) => prev - 1), 1000);
+      matchTimer = setInterval(() => {
+        setMatchTime(prev => prev - 1);
+      }, 1000);
+  
       if (matchTime === 300) playSound(`5min${language}`);
-      if (matchTime === 0) playSound(`gameOver${language}`);
     }
     return () => clearInterval(matchTimer);
-  }, [matchTime, language, matchStarted]);
+  }, [matchStarted, matchTime, language]);
+
+  useEffect(() => {
+    if (matchTime === 0) {
+      playSound(`gameOver${language}`);
+    }
+  }, [matchTime, language]);
+  
+  
 
   useEffect(() => {
     let shotTimer;
