@@ -52,16 +52,6 @@ html, body {
   z-index: 10;
 }
 
-.match-controls {
-  position: relative;
-  left: 75%;
-  transform: translateX(-50%);
-  height: 48px; /* enough for one button, adjust to your button height */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 
 /* Timer Components */
 .timer,
