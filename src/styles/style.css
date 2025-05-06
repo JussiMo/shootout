@@ -1,12 +1,37 @@
+.app-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
 /*App Background*/
 .snooker-app {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   font-family: "Segoe UI", sans-serif;
-  padding: 30px 20px;
+  height: 100vh;
+  padding: 0;
   background-color: #014421;
   color: #fff;
-  min-height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
 }
+
+
 
 /* Title */
 .title {
@@ -16,8 +41,8 @@
 
 /*Match Timer Box */
 .top-box {
-  position: absolute; 
-  top: 130px;          
+  position: absolute;
+  top: 160px;
   left: 50%;
   transform: translateX(-50%);
   background-color: #111;
@@ -26,6 +51,7 @@
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
   z-index: 10;
 }
+
 
 /* Timer Components */
 .timer,
@@ -72,14 +98,17 @@
 /* Shot Clock Box */
 .center {
   position: absolute;
-  left: 39%;
+  left: 40%;
   background-color: #222;
   border-radius: 12px;
   padding: 20px;
   width: 20%;
   text-align: center;
   color: #fff;
+  max-height: 100%;
+  box-sizing: border-box;
 }
+
 
 .shot-clock {
   font-size: 36px;
@@ -110,8 +139,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex: 1;
+  width: 100%;
   padding: 20px;
+  max-height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
 }
+
 
 /* Player Panels */
 .player-side-horizontal {
@@ -286,6 +321,24 @@
   .center { width: 60%; }
 }
 
+@media (max-height: 700px) {
+  .timer-value,
+  .shot-btn,
+  .ball-shape {
+    transform: scale(0.85);
+  }
+
+  .match-btn {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .top-box {
+    top: 100px;
+  }
+}
+
+
 @media (max-width: 768px) {
   .main-layout {
     flex-direction: column;
@@ -298,7 +351,11 @@
   }
 
   .center {
-    width: 100%;
+    width: 20%;
+  }
+
+  .score-buttons {
+    gap: 2px;
   }
 
   .ball-btn {
