@@ -264,7 +264,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
         {/* Visual shotclock */}
         <div className="bottom-visual-shot-clock">
           {Array.from({ length: matchTime > 300 ? 15 : 10 }, (_, i) => {
-            const total = matchTime > 300 ? 15 : 10;
+            //const total = matchTime > 300 ? 15 : 10;
             const isFilled = i < shotClock;
             const isRed = shotClock <= 5 && i < 5;
 
