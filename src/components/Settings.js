@@ -27,7 +27,7 @@ export default function Settings({ language, setLanguage, playerNames, setPlayer
           onChange={(e) => setPlayerNames((prev) => ({ ...prev, player2: e.target.value }))}
         />
       </div>
-      <div>
+{/*       <div>
         <label>{language === "FI" ? "Virhepiste" : "Foul point"}: </label>
         <input
           type="number"
@@ -36,7 +36,7 @@ export default function Settings({ language, setLanguage, playerNames, setPlayer
           value={foulPoints}
           onChange={(e) => setFoulPoints(Number(e.target.value))}
         />
-      </div>
+      </div> */}
 
     </div>
   );

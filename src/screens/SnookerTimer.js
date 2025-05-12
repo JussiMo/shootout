@@ -3,6 +3,8 @@ import ShotClock from "../components/ShotClock";
 import MatchTimer from "../components/MatchTimer";
 import "../styles/style.css";
 import translations from "../utils/translations";
+import FoulInputModal from "../components/FoulInputModal";
+
 
 export default function SnookerTimer({ language, playerNames, setPlayerNames, onOpenSettings, settingsOpen, foulPoints }) {
   const [matchTime, setMatchTime] = useState(600);
@@ -10,6 +12,8 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
   const [shotClock, setShotClock] = useState(15);
   const [playerScores, setPlayerScores] = useState({ player1: 0, player2: 0 });
   const [isShotClockRunning, setIsShotClockRunning] = useState(false);
+  const [foulPlayer, setFoulPlayer] = useState(null);
+  const [matchPaused, setMatchPaused] = useState(false);
   const t = translations[language];
 
   const sounds = useRef({
@@ -27,23 +31,24 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
 
   useEffect(() => {
     let matchTimer;
-    if (matchStarted && matchTime > 0) {
+    if (matchStarted && !matchPaused && matchTime > 0) {
       matchTimer = setInterval(() => {
         setMatchTime(prev => prev - 1);
       }, 1000);
-  
+
       if (matchTime === 300) playSound(`5min${language}`);
     }
     return () => clearInterval(matchTimer);
-  }, [matchStarted, matchTime, language]);
+  }, [matchStarted, matchPaused, matchTime, language]);
+
 
   useEffect(() => {
     if (matchTime === 0) {
       playSound(`gameOver${language}`);
     }
   }, [matchTime, language]);
-  
-  
+
+
 
   useEffect(() => {
     let shotTimer;
@@ -98,15 +103,15 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
         }
       }
     };
-  
+
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, [isShotClockRunning, shotClock, matchTime, settingsOpen]);
-  
-  
-  
 
-  function addPoints(player, type) {
+
+
+
+  function addPoints(player, type, customValue) {
     const ballPoints = {
       red: 1,
       yellow: 2,
@@ -115,15 +120,29 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
       blue: 5,
       pink: 6,
       black: 7,
-      foul: foulPoints,
+      foul: customValue ?? foulPoints,
     };
+
     setPlayerScores((prev) => ({
       ...prev,
       [player]: prev[player] + ballPoints[type],
     }));
+
     setShotClock(matchTime > 300 ? 15 : 10);
     setIsShotClockRunning(false);
   }
+
+  function handleFoul(player) {
+    setFoulPlayer(player);
+  }
+
+  function handleFoulSubmit(points) {
+    addPoints(foulPlayer, "foul", points);
+    setFoulPlayer(null);
+  }
+
+
+
 
   function resetGame() {
     setMatchTime(600);
@@ -134,35 +153,46 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
   }
 
   return (
-    <div className="snooker-app">
-      {/* Top Section: Settings + Match Timer Box */}
-      <div className="top-bar">
-        <div className="settings-container">
-          <button onClick={onOpenSettings} className="settings-btn">
-            {t.settings}
-          </button>
-        </div>
-  
-        <div className="top-box">
-          <MatchTimer time={matchTime} label={t.matchTimer} />
-  
-          {!matchStarted && matchTime === 600 && (
-            <button onClick={() => setMatchStarted(true)} className="match-btn">
-              {t.start}
-            </button>
-          )}
-  
-          {matchTime === 0 && (
-            <button onClick={resetGame} className="match-btn">
-              {t.reset}
-            </button>
-          )}
-        </div>
+<div className="snooker-app">
+    {/* Top Section: Settings + Match Timer Box */}
+    <div className="top-bar">
+      <div className="settings-container">
+        <button onClick={onOpenSettings} className="settings-btn">
+          {t.settings}
+        </button>
       </div>
-  
+
+      <div className="top-box">
+        <MatchTimer time={matchTime} label={t.matchTimer} />
+      </div>
+
+      <div className="match-button-wrapper">
+        {!matchStarted && matchTime === 600 && (
+          <button onClick={() => setMatchStarted(true)} className="match-btn">
+            {t.start}
+          </button>
+        )}
+
+        {matchStarted && matchTime > 0 && (
+          <button
+            onClick={() => setMatchPaused((prev) => !prev)}
+            className="match-btn"
+          >
+            {matchPaused ? t.resume : t.pause}
+          </button>
+        )}
+
+        {matchTime === 0 && (
+          <button onClick={resetGame} className="match-btn">
+            {t.reset}
+          </button>
+        )}
+      </div>
+    </div>
+
       {/* Main Layout: Player 1 | Shot Clock | Player 2 */}
       <div className="main-layout">
-        
+
         {/* Player 1 Side */}
         <div className="player-side-horizontal">
           <div className="score-buttons">
@@ -171,25 +201,29 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
                 key={color}
                 className={`ball-btn ball-${color}`}
                 onClick={() => addPoints("player1", color)}
-                title={color} // optional hover
+                title={color}
               >
                 <div className="ball-shape"></div>
               </button>
             ))}
           </div>
-  
+
           <div className="player-info-inline">
-            <button className="foul-btn" onClick={() => addPoints("player1", "foul")}>
+            <button className="foul-btn" onClick={() => handleFoul("player1")}>
               {t.foul} P1
             </button>
             <h3>{playerNames.player1}</h3>
             <div className="score">{t.playerScore}: {playerScores.player1}</div>
           </div>
         </div>
-  
+
         {/* Center: Shot Clock Box */}
         <div className="center">
-          <ShotClock time={shotClock} label={t.shotClock} maxTime={matchTime > 300 ? 15 : 10} />
+          <ShotClock
+            time={shotClock}
+            label={{ text: t.shotClock, unit: t.shotUnit }}
+            maxTime={matchTime > 300 ? 15 : 10}
+          />
           <div className="bottom-bar">
             {!isShotClockRunning ? (
               <button onClick={startShotClock} className="shot-btn">
@@ -202,17 +236,17 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
             )}
           </div>
         </div>
-  
+
         {/* Player 2 Side */}
         <div className="player-side-horizontal">
           <div className="player-info-inline">
-            <button className="foul-btn" onClick={() => addPoints("player2", "foul")}>
+            <button className="foul-btn" onClick={() => handleFoul("player2")}>
               {t.foul} P2
             </button>
             <h3>{playerNames.player2}</h3>
             <div className="score">{t.playerScore}: {playerScores.player2}</div>
           </div>
-  
+
           <div className="score-buttons">
             {["red", "yellow", "green", "brown", "blue", "pink", "black"].map((color) => (
               <button
@@ -226,14 +260,36 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
             ))}
           </div>
         </div>
+
+        {/* Visual shotclock */}
+        <div className="bottom-visual-shot-clock">
+          {Array.from({ length: matchTime > 300 ? 15 : 10 }, (_, i) => {
+            const total = matchTime > 300 ? 15 : 10;
+            const isFilled = i < shotClock;
+            const isRed = shotClock <= 5 && i < 5;
+
+            return (
+              <div
+                key={i}
+                className={`shot-segment 
+          ${isFilled ? "filled" : ""} 
+          ${isRed && isFilled ? "danger" : ""}`}
+              ></div>
+            );
+          })}
+        </div>
       </div>
+
+      {foulPlayer && (
+        <FoulInputModal
+          player={playerNames[foulPlayer]}
+          onSubmit={handleFoulSubmit}
+          onCancel={() => setFoulPlayer(null)}
+          t={t}
+        />
+
+      )}
+
     </div>
   );
-  
-  
-  
-  
-  
-  
-  
 }

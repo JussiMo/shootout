@@ -7,7 +7,7 @@ export default function SettingsPage({
   playerNames,
   setPlayerNames,
   foulPoints,
-  setFoulPoints,
+/*   setFoulPoints, */
   onBack,
   resetGame,
 }) {
@@ -20,7 +20,7 @@ export default function SettingsPage({
         playerNames={playerNames}
         setPlayerNames={setPlayerNames}
         foulPoints={foulPoints}
-        setFoulPoints={setFoulPoints}
+/*         setFoulPoints={setFoulPoints} */
       />
 
       <button onClick={resetGame} className="settings-reset-btn">
