@@ -11,7 +11,7 @@ export default function FoulInputModal({ player, onSubmit, onCancel, t }) {
 
     const submit = () => {
         const intValue = parseInt(valueRef.current, 10);
-        if (!isNaN(intValue) && intValue >= 1 && intValue <= 9) {
+        if (!isNaN(intValue) && intValue >= 5 && intValue <= 7) {
             onSubmit(intValue);
         }
     };
@@ -32,7 +32,7 @@ export default function FoulInputModal({ player, onSubmit, onCancel, t }) {
         const handleKey = (e) => {
             if (e.key === "Enter") submit();
             if (e.key === "Escape") onCancel();
-            if (/^[1-9]$/.test(e.key)) handleClick(e.key);
+            if (/^[5-7]$/.test(e.key)) handleClick(e.key);
             if (e.key === "Backspace") handleDelete();
         };
 
@@ -52,14 +52,15 @@ export default function FoulInputModal({ player, onSubmit, onCancel, t }) {
                 />
 
                 <div className="numpad-grid">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
+                    {[5, 6, 7].map((n) => (
                         <button key={n} onClick={() => handleClick(n)}>{n}</button>
                     ))}
+
                     <button onClick={handleDelete}>←</button>
                 </div>
 
                 <div className="modal-actions">
-                    <button onClick={submit}>{t.foulPromptConfirm}</button>
+                    <button onClick={submit} disabled={!["5", "6", "7"].includes(value)}>{t.foulPromptConfirm}</button>
                     <button onClick={onCancel}>{t.foulPromptCancel}</button>
                 </div>
             </div>

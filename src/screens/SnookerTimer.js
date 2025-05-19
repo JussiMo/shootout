@@ -25,6 +25,9 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
     longBeep: new Audio("/longBeep.mp3"),
   });
 
+  const pressTimer = useRef();
+
+
   useEffect(() => {
     Object.values(sounds.current).forEach((audio) => audio.load());
   }, []);
@@ -34,7 +37,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
     if (matchStarted && !matchPaused && matchTime > 0) {
       matchTimer = setInterval(() => {
         setMatchTime(prev => prev - 1);
-      }, 1000);
+      }, 1000); //
 
       if (matchTime === 300) playSound(`5min${language}`);
     }
@@ -111,7 +114,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
 
 
 
-  function addPoints(player, type, customValue) {
+  function addPoints(player, type, customValue, isUndo = false) {
     const ballPoints = {
       red: 1,
       yellow: 2,
@@ -123,14 +126,20 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
       foul: customValue ?? foulPoints,
     };
 
+    const points = ballPoints[type] || 0;
+    const delta = isUndo ? -points : points;
+
     setPlayerScores((prev) => ({
       ...prev,
-      [player]: prev[player] + ballPoints[type],
+      [player]: Math.max(0, prev[player] + delta),
     }));
 
-    setShotClock(matchTime > 300 ? 15 : 10);
-    setIsShotClockRunning(false);
+    if (!isUndo) {
+      setShotClock(matchTime > 300 ? 15 : 10);
+      setIsShotClockRunning(false);
+    }
   }
+
 
   function handleFoul(player) {
     setFoulPlayer(player);
@@ -153,42 +162,42 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
   }
 
   return (
-<div className="snooker-app">
-    {/* Top Section: Settings + Match Timer Box */}
-    <div className="top-bar">
-      <div className="settings-container">
-        <button onClick={onOpenSettings} className="settings-btn">
-          {t.settings}
-        </button>
-      </div>
-
-      <div className="top-box">
-        <MatchTimer time={matchTime} label={t.matchTimer} />
-      </div>
-
-      <div className="match-button-wrapper">
-        {!matchStarted && matchTime === 600 && (
-          <button onClick={() => setMatchStarted(true)} className="match-btn">
-            {t.start}
+    <div className="snooker-app">
+      {/* Top Section: Settings + Match Timer Box */}
+      <div className="top-bar">
+        <div className="settings-container">
+          <button onClick={onOpenSettings} className="settings-btn">
+            {t.settings}
           </button>
-        )}
+        </div>
 
-        {matchStarted && matchTime > 0 && (
-          <button
-            onClick={() => setMatchPaused((prev) => !prev)}
-            className="match-btn"
-          >
-            {matchPaused ? t.resume : t.pause}
-          </button>
-        )}
+        <div className="top-box">
+          <MatchTimer time={matchTime} label={t.matchTimer} />
+        </div>
 
-        {matchTime === 0 && (
-          <button onClick={resetGame} className="match-btn">
-            {t.reset}
-          </button>
-        )}
+        <div className="match-button-wrapper">
+          {!matchStarted && matchTime === 600 && (
+            <button onClick={() => setMatchStarted(true)} className="match-btn">
+              {t.start}
+            </button>
+          )}
+
+          {matchStarted && matchTime > 0 && (
+            <button
+              onClick={() => setMatchPaused((prev) => !prev)}
+              className="match-btn"
+            >
+              {matchPaused ? t.resume : t.pause}
+            </button>
+          )}
+
+          {matchTime === 0 && (
+            <button onClick={resetGame} className="match-btn">
+              {t.reset}
+            </button>
+          )}
+        </div>
       </div>
-    </div>
 
       {/* Main Layout: Player 1 | Shot Clock | Player 2 */}
       <div className="main-layout">
@@ -200,12 +209,31 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
               <button
                 key={color}
                 className={`ball-btn ball-${color}`}
-                onClick={() => addPoints("player1", color)}
                 title={color}
+                onMouseDown={() => {
+                  pressTimer.current = setTimeout(() => {
+                    addPoints("player1", color, undefined, true); // long press = undo
+                    pressTimer.current = null;
+                  }, 1000); // 1 second
+                }}
+                onMouseUp={() => {
+                  if (pressTimer.current) {
+                    clearTimeout(pressTimer.current);
+                    addPoints("player1", color); // short press = add
+                    pressTimer.current = null;
+                  }
+                }}
+                onMouseLeave={() => {
+                  if (pressTimer.current) {
+                    clearTimeout(pressTimer.current);
+                    pressTimer.current = null;
+                  }
+                }}
               >
                 <div className="ball-shape"></div>
               </button>
             ))}
+
           </div>
 
           <div className="player-info-inline">
@@ -213,7 +241,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
               {t.foul} P1
             </button>
             <h3>{playerNames.player1}</h3>
-            <div className="score">{t.playerScore}: {playerScores.player1}</div>
+            <div className="score">{playerScores.player1}</div>
           </div>
         </div>
 
@@ -244,20 +272,39 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
               {t.foul} P2
             </button>
             <h3>{playerNames.player2}</h3>
-            <div className="score">{t.playerScore}: {playerScores.player2}</div>
+            <div className="score">{playerScores.player2}</div>
           </div>
 
           <div className="score-buttons">
             {["red", "yellow", "green", "brown", "blue", "pink", "black"].map((color) => (
               <button
-                key={color + "2"}
+                key={color}
                 className={`ball-btn ball-${color}`}
-                onClick={() => addPoints("player2", color)}
                 title={color}
+                onMouseDown={() => {
+                  pressTimer.current = setTimeout(() => {
+                    addPoints("player2", color, undefined, true); // long press = undo
+                    pressTimer.current = null;
+                  }, 1000); // 1 second
+                }}
+                onMouseUp={() => {
+                  if (pressTimer.current) {
+                    clearTimeout(pressTimer.current);
+                    addPoints("player2", color); // short press = add
+                    pressTimer.current = null;
+                  }
+                }}
+                onMouseLeave={() => {
+                  if (pressTimer.current) {
+                    clearTimeout(pressTimer.current);
+                    pressTimer.current = null;
+                  }
+                }}
               >
                 <div className="ball-shape"></div>
               </button>
             ))}
+
           </div>
         </div>
 
