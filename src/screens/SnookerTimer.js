@@ -37,7 +37,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
     if (matchStarted && !matchPaused && matchTime > 0) {
       matchTimer = setInterval(() => {
         setMatchTime(prev => prev - 1);
-      }, 1000); //
+      }, 1000);
 
       if (matchTime === 300) playSound(`5min${language}`);
     }
@@ -214,7 +214,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
                   pressTimer.current = setTimeout(() => {
                     addPoints("player1", color, undefined, true); // long press = undo
                     pressTimer.current = null;
-                  }, 1000); // 1 second
+                  }, 1200); // bit over 1 second
                 }}
                 onMouseUp={() => {
                   if (pressTimer.current) {
@@ -285,7 +285,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
                   pressTimer.current = setTimeout(() => {
                     addPoints("player2", color, undefined, true); // long press = undo
                     pressTimer.current = null;
-                  }, 1000); // 1 second
+                  }, 1200); // bit over 1 second
                 }}
                 onMouseUp={() => {
                   if (pressTimer.current) {
