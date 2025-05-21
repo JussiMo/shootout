@@ -27,10 +27,7 @@ Packaged for Windows (.exe)
 
 Installation (Development)
 
-git clone https://github.com/JussiMo/shootout-timer.git
-cd shootout-timer
-npm install
-npm run start
+<pre> ```bash git clone https://github.com/JussiMo/shootout-timer.git cd shootout-timer npm install npm run start ``` </pre>
 
 
 To launch with Electron:
