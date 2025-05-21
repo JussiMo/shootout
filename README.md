@@ -35,6 +35,8 @@ npm install
 
 npm run start
 
+
+
 To launch with Electron:
 
 npm run build
