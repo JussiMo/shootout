@@ -27,7 +27,7 @@ Packaged for Windows (.exe)
 
 Installation (Development)
 
-git clone https://github.com/yourusername/shootout-timer.git
+git clone https://github.com/JussiMo/shootout-timer.git
 cd shootout-timer
 npm install
 npm run start
