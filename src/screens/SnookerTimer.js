@@ -16,14 +16,15 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
   const [matchPaused, setMatchPaused] = useState(false);
   const t = translations[language];
 
-  const sounds = useRef({
-    "5minEN": new Audio("/5minEN.mp3"),
-    "5minFI": new Audio("/5minFI.mp3"),
-    gameOverEN: new Audio("/gameOverEN.mp3"),
-    gameOverFI: new Audio("/gameOverFI.mp3"),
-    shortBeep: new Audio("/shortBeep.mp3"),
-    longBeep: new Audio("/longBeep.mp3"),
-  });
+const sounds = useRef({
+  "5minEN": new Audio("audio/5minEN.mp3"),
+  "5minFI": new Audio("audio/5minFI.mp3"),
+  gameOverEN: new Audio("audio/gameOverEN.mp3"),
+  gameOverFI: new Audio("audio/gameOverFI.mp3"),
+  shortBeep: new Audio("audio/shortBeep.mp3"),
+  longBeep: new Audio("audio/longBeep.mp3"),
+});
+
 
   const pressTimer = useRef();
 
@@ -214,7 +215,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
                   pressTimer.current = setTimeout(() => {
                     addPoints("player1", color, undefined, true); // long press = undo
                     pressTimer.current = null;
-                  }, 1200); // bit over 1 second
+                  }, 1000); // 1 second
                 }}
                 onMouseUp={() => {
                   if (pressTimer.current) {
@@ -285,7 +286,7 @@ export default function SnookerTimer({ language, playerNames, setPlayerNames, on
                   pressTimer.current = setTimeout(() => {
                     addPoints("player2", color, undefined, true); // long press = undo
                     pressTimer.current = null;
-                  }, 1200); // bit over 1 second
+                  }, 1000); // 1 second
                 }}
                 onMouseUp={() => {
                   if (pressTimer.current) {

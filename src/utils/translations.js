@@ -15,7 +15,14 @@ const translations = {
     foulPromptPlaceholder: "Enter points (4–7)",
     pause: "Pause",
     resume: "Resume",
-    shotUnit: "sec"
+    shotUnit: "sec",
+    closeApp: "Close App",
+    confirmCloseTitle: "Exit App?",
+    confirmCloseMessage: "Are you sure you want to close the application?",
+    confirmYes: "Yes",
+    confirmNo: "No",
+    resetGame: "Reset Game",
+
   },
   FI: {
     title: "Snooker Shoot-Out -Ajastin",
@@ -33,8 +40,13 @@ const translations = {
     foulPromptPlaceholder: "Anna pisteet (4–7)",
     pause: "Tauko",
     resume: "Jatka",
-
-    shotUnit: "sek"
+    shotUnit: "sek",
+    closeApp: "Sulje sovellus",
+    confirmCloseTitle: "Poistu sovelluksesta?",
+    confirmCloseMessage: "Haluatko varmasti sulkea sovelluksen?",
+    confirmYes: "Kyllä",
+    confirmNo: "Ei",
+    resetGame: "Nollaa peli",
   },
 };
 

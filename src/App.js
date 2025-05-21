@@ -5,7 +5,7 @@ import "./styles/style.css";
 
 function App() {
   const [showSettings, setShowSettings] = useState(false);
-  const [language, setLanguage] = useState("EN");
+  const [language, setLanguage] = useState("FI");
   const [foulPoints, setFoulPoints] = useState(5);
   const [playerNames, setPlayerNames] = useState({
     player1: "Player 1",

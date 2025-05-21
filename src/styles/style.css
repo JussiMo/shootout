@@ -590,6 +590,37 @@ body {
 }
 
 
+/* Close App Button */
+.close-app-btn {
+  margin-top: 30px;
+  padding: 12px 28px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #aa0000;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #700000;
+  transition: all 0.2s ease-in-out;
+}
+
+.close-app-btn:hover {
+  background-color: #cc0000;
+  box-shadow: 0 4px 0 #880000;
+}
+
+/* Settings Page */
+.settings-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.settings-page button {
+  margin-top: 16px;
+}
+
 
 
 /* Responsive Tweaks */
