@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+Snooker Shoot-Out Timer
+A fullscreen match timer + shot clock app for Snooker Shoot-Out style games. Built with React + Electron, designed for laptop use with audio cues, configurable foul points, bilingual support, and intuitive scoring.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---------------------
 
-## Available Scripts
+Features:
 
-In the project directory, you can run:
+Shot Clock with visual + numeric countdown
 
-### `npm start`
+Match Timer (10 min default, with audio warning at 5 min)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Sound cues for countdown and timeouts
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Click ball buttons to add points
 
-### `npm test`
+Long press to undo point
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Foul entry with custom point input (via on-screen numpad or keyboard)
 
-### `npm run build`
+Settings for language (English / Finnish) and player names. (Default language Finnish, to change ingame go to "Asetukset" top of screen. Or in App.js change 'const [language, setLanguage] = useState("FI")' to const '[language, setLanguage] = useState("EN")')
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+"Close App" button with confirmation prompt
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Packaged for Windows (.exe)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---------------------
 
-### `npm run eject`
+Installation (Development)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+git clone https://github.com/yourusername/shootout-timer.git
+cd shootout-timer
+npm install
+npm run start
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To launch with Electron:
+npm run build
+npm run electron
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---------------------
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Build Electron App
+To package the app into a Windows executable:
 
-## Learn More
+npx electron-packager . shootout-timer \
+  --platform=win32 \
+  --arch=x64 \
+  --icon=icon.ico \
+  --overwrite \
+  --asar
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  This creates a shootout-timer-win32-x64/ folder with the .exe file.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+ ---------------------
 
-### Code Splitting
+Notes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Works best in fullscreen mode
 
-### Analyzing the Bundle Size
+Designed for physical, in-person matches
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Tested and used on Windows laptops
